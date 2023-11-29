@@ -7,6 +7,12 @@ csvpath = os.path.join(".", "Resources", "election_data.csv")
 
 data = []
 
+total_votes = 369711
+candidates  = ["Charles Casper Stockham", "Diana DeGette", "Raymon Anthony Doane"]
+count_votes = [85213, 272892, 11606]
+count_max   = 0
+winner      = ""
+
 # Open the CSV using the UTF-8 encoding
 with open(csvpath, encoding='UTF-8') as csvfile:
     csv_reader = csv.reader(csvfile, delimiter=",")
@@ -24,12 +30,6 @@ with open(csvpath, encoding='UTF-8') as csvfile:
 # The percentage of votes each candidate won
 # The total number of votes each candidate won
 # The winner of the election based on popular vote
-
-total_votes = 369711
-candidates  = ["Charles Casper Stockham", "Diana DeGette", "Raymon Anthony Doane"]
-count_votes = [85213, 272892, 11606]
-count_max   = 0
-winner      = ""
 
 # output
 

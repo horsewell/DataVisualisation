@@ -1,6 +1,21 @@
-# load the data
+# Modules
+import os
+import csv
 
-# store the header
+# Set path for file
+csvpath = os.path.join(".", "Resources", "election_data.csv")
+
+data = []
+
+# Open the CSV using the UTF-8 encoding
+with open(csvpath, encoding='UTF-8') as csvfile:
+    csv_reader = csv.reader(csvfile, delimiter=",")
+
+    # store the header
+    header_row = next(csv_reader)   
+
+    for row in csv_reader:
+        data = row
 
 # analysis
 

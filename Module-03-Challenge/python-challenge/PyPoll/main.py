@@ -5,11 +5,9 @@ import csv
 # Set path for file
 csvpath = os.path.join(".", "Resources", "election_data.csv")
 
-data = []
-
-total_votes = 369711
-candidates  = ["Charles Casper Stockham", "Diana DeGette", "Raymon Anthony Doane"]
-count_votes = [85213, 272892, 11606]
+total_votes = 0
+candidates  = []
+count_votes = []
 count_max   = 0
 winner      = ""
 
@@ -21,27 +19,31 @@ with open(csvpath, encoding='UTF-8') as csvfile:
     header_row = next(csv_reader)   
 
     for row in csv_reader:
-        data = row
+        # count all votes
+        total_votes += 1
 
-# analysis
-
-# The total number of votes cast
-# A complete list of candidates who received votes
-# The percentage of votes each candidate won
-# The total number of votes each candidate won
-# The winner of the election based on popular vote
-
+        # if new candidate not in the candidates list add and add 1 vote to corrosponding count_votes position
+        if row[2] not in candidates:
+            candidates.append(row[2])
+            count_votes.append(1)
+        else:
+            # if candidate already in candidates just increase the votes
+            count_votes[candidates.index(row[2])] += 1
+        
 # output
 
 print(f"Election Results")
 print(f"-------------------------")
 print(f"Total Votes: {total_votes}")
 print(f"-------------------------")
+# cycle through the candidates
 for candidate in candidates:
     candidate_votes = count_votes[candidates.index(candidate)]
     print(f"{candidate}: {candidate_votes/total_votes:.3%} ({candidate_votes})")
+    # get the maximum votes for the candidate
     if candidate_votes > count_max:
         count_max = candidate_votes
+# the winner is the one with the max votes
 winner = candidates[count_votes.index(count_max)]
 print(f"-------------------------")
 print(f"Winner: {winner}")

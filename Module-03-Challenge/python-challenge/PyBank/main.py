@@ -1,7 +1,6 @@
 # Modules
 import os
 import csv
-import copy
 
 # Set path for file
 csvpath = os.path.join(".", "Resources", "budget_data.csv")
@@ -21,6 +20,8 @@ p_amount = 0
 r_date = ""
 r_date = ""
 
+change = 0
+sum_change = 0
 
 
 # Open the CSV using the UTF-8 encoding
@@ -29,42 +30,38 @@ with open(csvpath, encoding='UTF-8') as csvfile:
 
     # store the header
     header_row = next(csv_reader)   
+    first = True
 
+    # cycle through the rows
     for row in csv_reader:
-        r_date   = copy.deepcopy(row[0])
-        r_amount = int(copy.deepcopy(row[1]))
+        # collect the data
+        r_date   = row[0]
+        r_amount = int(row[1])
 
+        # get the change in profit or loss
+        change  = (r_amount - p_amount)
+
+        # sum the change
+        if not first:
+            sum_change += change
+
+        # get the total months and amount
         total_months += 1
-        total_amount += int(row[1])
+        total_amount += r_amount
 
-        if greatest_inc_amount < (r_amount - p_amount):
+        if greatest_inc_amount < change:
             greatest_inc_date   = r_date
-            greatest_inc_amount = (r_amount - p_amount)
+            greatest_inc_amount = change
 
-        if greatest_dec_amount > (r_amount - p_amount):
+        if greatest_dec_amount > change:
             greatest_dec_date   = r_date
-            greatest_dec_amount = (r_amount - p_amount)
+            greatest_dec_amount = change
 
         p_amount = r_amount
         p_date   = r_date
+        first = False
 
-        
-
-# analysis
-
-# The total number of months included in the dataset
-# The net total amount of "Profit/Losses" over the entire period
-# The changes in "Profit/Losses" over the entire period, and then the average of those changes
-# The greatest increase in profits (date and amount) over the entire period
-# The greatest decrease in profits (date and amount) over the entire period
-
-#total_months        = 86
-#total_amount        = 22564198
-average_change      = -8311.11
-#greatest_inc_date   = "Aug-16"
-#greatest_inc_amount = 1862002
-#greatest_dec_date   = "Feb-14"
-#greatest_dec_amount = -1825558
+average_change = round(sum_change / (total_months -1), 2)
 
 # output
 
